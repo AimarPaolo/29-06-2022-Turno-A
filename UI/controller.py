@@ -12,17 +12,14 @@ class Controller:
         self._listCountry = []
 
     def fillDD(self):
+        "ciao"
         pass
-
 
     def handle_graph(self, e):
         pass
 
-
-
-    def handle_volume(self, e):
+    def handle_adiacenze(self, e):
         pass
 
-
-    def handle_path(self, e):
+    def handle_calcola_percorso(self, e):
         pass

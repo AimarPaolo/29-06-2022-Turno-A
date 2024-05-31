@@ -13,62 +13,51 @@ class View(ft.UserControl):
         self._controller = None
         # graphical elements
         self._title = None
-
+        self._ddA1 = None
+        self._btn_adiacenze = None
+        self._ddA2 = None
+        self._btn_calcola_percorso = None
         self.ddyear = None
         self.ddcountry = None
         self.txtN = None
 
+        self.txt_view = None
         self.btn_graph = None
-        self.btn_volume = None
-        self.btn_path = None
-
         self.txt_result = None
         self.txtOut2 = None
         self.txtOut3 = None
-
+        self._text_2 = None
         self.txt_container = None
 
     def load_interface(self):
         # title
-        self._title = ft.Text("TdP 2024 - Lab12: Prova tema d'esame", color="blue", size=24)
+        self._title = ft.Text("Tema d'esame", color="blue", size=24)
         self._page.controls.append(self._title)
 
-        #ROW with some controls
-        self.ddyear = ft.Dropdown(label="Anno")
-        self.ddcountry= ft.Dropdown(label="Nazione")
+        self.txt_view = ft.TextField(label="Numero canzoni")
 
         self.btn_graph = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handle_graph)
 
-        row1 = ft.Row([self.ddyear, self.ddcountry, self.btn_graph],
+        row1 = ft.Row([self.txt_view, self.btn_graph],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
-        self._controller.fillDD()
-
+        self._ddA1 = ft.Dropdown(label="Album a1", disabled=True)
+        self._btn_adiacenze = ft.ElevatedButton(text="Stampa adiacenze", disabled=True, on_click=self._controller.handle_adiacenze)
+        row2 = ft.Row([self._ddA1, self._btn_adiacenze], alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row2)
+        self._ddA2 = ft.Dropdown(label="Album a2", disabled=True)
+        self._btn_calcola_percorso = ft.ElevatedButton(text="Calcola percorso", disabled=True, on_click=self._controller.handle_calcola_percorso)
+        row3 = ft.Row([self._ddA2, self._btn_calcola_percorso], alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row3)
+        self._text_2 = ft.TextField(label="Soglia x", disabled=True)
+        row4 = ft.Row([self._text_2], alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row4)
         # List View where the reply is printed
         self.txt_result = ft.ListView(expand=0, spacing=5, padding=5, auto_scroll=True)
         self._page.controls.append(self.txt_result)
         self._page.update()
 
 
-        self.btn_volume = ft.ElevatedButton(text="Calcola Volumi", on_click=self._controller.handle_volume)
-        row2 = ft.Row([self.btn_volume],
-                      alignment=ft.MainAxisAlignment.CENTER)
-        self._page.controls.append(row2)
-
-        self.txtOut2 = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
-        self._page.controls.append(self.txtOut2)
-        self._page.update()
-
-        self.txtN = ft.TextField(label="Lunghezza percorso")
-        self.btn_path = ft.ElevatedButton(text="Calcola percorso", on_click=self._controller.handle_path)
-
-        row3 = ft.Row([self.txtN, self.btn_path],
-                      alignment=ft.MainAxisAlignment.CENTER)
-        self._page.controls.append(row3)
-
-        self.txtOut3 = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
-        self._page.controls.append(self.txtOut3)
-        self._page.update()
 
     @property
     def controller(self):
