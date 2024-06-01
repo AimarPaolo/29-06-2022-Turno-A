@@ -11,6 +11,7 @@ class Controller:
         self._listYear = []
         self._listCountry = []
         self.listaOrdinata = []
+        self.dizionario = {}
 
     def handle_graph(self, e):
         self._view.txt_result.controls.clear()
@@ -29,6 +30,7 @@ class Controller:
         self.fillDD(self._model.tuplaDD())
         self._view._text_2.disabled = False
         self._view._btn_calcola_percorso.disabled = False
+        self.dizionario = self._model.definizione_dizionario()
         self._view.update_page()
 
     def handle_adiacenze(self, e):
@@ -39,10 +41,9 @@ class Controller:
             self._view.txt_result.controls.append(ft.Text("ERRORE"))
             self._view.update_page()
             return
-        dizionario_bilancio = self._model.definizione_dizionario()
         vicini = self._model.getVicini(nodoSorgente)
         for vic in vicini:
-            self.listaOrdinata.append((self._model._idMap[int(vic.AlbumId)].Title, dizionario_bilancio[vic.AlbumId]))
+            self.listaOrdinata.append((self._model._idMap[int(vic.AlbumId)].Title, self.dizionario[vic.AlbumId]))
         self.listaOrdinata = sorted(self.listaOrdinata, key=lambda x: x[1], reverse=True)
         for titolo, bilancio in self.listaOrdinata:
             self._view.txt_result.controls.append(ft.Text(f"{titolo}, bilancio={bilancio}"))
@@ -51,6 +52,10 @@ class Controller:
     def handle_calcola_percorso(self, e):
         self._view.txt_result.controls.clear()
         stringa_percorso = self._view._text_2.value
+        if stringa_percorso == "":
+            self._view.txt_result.controls.append(ft.Text("Non hai inserito niente!!"))
+            self._view.update_page()
+            return
         try:
             numero_percorso = int(stringa_percorso)
         except ValueError:
@@ -60,8 +65,9 @@ class Controller:
         nodoPartenza = self._view._ddA1.value
         nodoArrivo = self._view._ddA2.value
         miglior_cammino = self._model.getBestPath(numero_percorso, nodoPartenza, nodoArrivo)
+        self._view.txt_result.controls.append(ft.Text(f"La lunghezza del percorso è: {len(miglior_cammino)}"))
         for i in range(len(miglior_cammino)):
-                self._view.txt_result.controls.append(ft.Text(f"{miglior_cammino[i].Title}"))
+            self._view.txt_result.controls.append(ft.Text(f"{miglior_cammino[i].Title}"))
         self._view.update_page()
 
     def fillDD(self, tupla):

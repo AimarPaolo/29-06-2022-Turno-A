@@ -57,7 +57,6 @@ class Model:
         nodo2Source = self._idMap[int(a2)]
         parziale = [nodo1Source]
         self.ricorsione(parziale, numero_percorso, nodo2Source)
-        print(self._bestPath)
         return self._bestPath
 
     def ricorsione(self, parziale, peso_min, a2):
@@ -66,7 +65,6 @@ class Model:
                 self._bestPath = copy.deepcopy(parziale)
         print(list(self._grafo.successors(parziale[-1])))
         for v in self._grafo.successors(parziale[-1]):
-            print("entrato")
             if v not in parziale:
                 if self._grafo[parziale[-1]][v]['weight'] >= peso_min:
                     if self._dizionario_bilancio[v.AlbumId] > self._dizionario_bilancio[parziale[0].AlbumId]:
